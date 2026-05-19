@@ -1,0 +1,57 @@
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+code : stat* EOF;
+
+stat: (expr| atribuicao) NEWLINE?;
+
+atribuicao: ID ' '* '=' ' '* expr;
+
+expr: ID
+    | ' '* INT ' '*
+    | expr ' '* ADDITION expr ' '*
+    | expr ' '* SUBTRACTION expr ' '*
+    | expr ' '* MULTIPLICATION expr ' '*
+    | expr ' '* DIVISION expr ' '*
+    | expr ' '* MODULUS expr ' '*
+    | expr ' '* EXPONENTIATION expr ' '*
+    | expr ' '* FLOOR_DIVISION expr ' '*
+    | expr ' '* INT expr ' '*
+    | expr ' '* EQUAL_TO expr ' '*
+    | expr ' '* NOT_EQUAL_TO expr ' '*
+    | expr ' '* GREATER_THAN expr ' '*
+    | expr ' '* LESS_THAN expr ' '*
+    | expr ' '* GREATER_THAN_OR_EQUAL_TO expr ' '*
+    | expr ' '* LESS_THAN_OR_EQUAL_TO expr ' '*
+    | expr ' '* ADDITION_ASSIGNMENT expr ' '*
+    | expr ' '* SUBTRACTION_ASSIGNMENT expr ' '*
+    | expr ' '* MULTIPLICATION_ASSIGNMENT expr ' '*
+    | expr ' '* DIVISION_ASSIGNMENT expr ' '*
+    | expr ' '* MODULUS_ASSIGNMENT expr ' '*
+    | expr ' '* EXPONENTIATION_ASSIGNMENT expr ' '*
+    | expr ' '* FLOOR_DIVISION_ASSIGNMENT expr ' '*
+    | expr ' '* IMPORT expr ' '*
+    | expr ' '* FLOAT expr ' '*
+    | expr ' '* ELSE expr ' '*
+    | expr ' '* TRUE expr ' '*
+    | expr ' '* FALSE expr ' '*
+    | expr ' '* FROM expr ' '*
+    | expr ' '* IN expr ' '*
+    | expr ' '* FOR expr ' '*
+    | expr ' '* WHILE expr ' '*
+    | expr ' '* PRINT expr ' '*
+    | expr ' '* DEF expr ' '*
+    | expr ' '* WITH expr ' '*
+    | expr ' '* TYPE expr ' '*
+    | expr ' '* LIST expr ' '*
+    | expr ' '* STR expr ' '*
+    | expr ' '* AND expr ' '*
+    | expr ' '* NOT expr ' '*
+    | expr ' '* OR expr ' '*
+    | func ' '*
+    | 'not' ' '* expr ' '*
+    | expr ' '* 'and' ' '* expr ' '*
+    | expr ' '* 'or' ' '* expr ' '*
+    ;
+
+func : ID '(' expr (',' expr)* ')' ;
