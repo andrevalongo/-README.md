@@ -1,0 +1,73 @@
+parser grammar ExprParser;
+options { tokenVocab=ExprLexer; }
+
+
+code : (stat | condicional)* EOF ;
+
+stat: (func |expr | atribuicao | func_call) NEWLINE? ;
+
+condicional:
+    IF expr COLON NEWLINE? stat*
+    (ELIF expr COLON NEWLINE? stat*)*
+    (ELSE COLON NEWLINE? stat*)?
+;
+
+atribuicao: ID '=' expr ;
+
+// Limpeza dos espaços (' '*) e remoção de keywords que não são expressões (como IMPORT, DEF, etc)
+expr: ID
+    | ' '* INT ' '*
+    | expr ' '* ADDITION expr ' '*
+    | expr ' '* SUBTRACTION expr ' '*
+    | expr ' '* MULTIPLICATION expr ' '*
+    | expr ' '* DIVISION expr ' '*
+    | expr ' '* COLON expr ' '*
+    | expr ' '* EQ expr ' '*
+    | ' '* LPAREN ' '* expr ' '* RPAREN ' '*
+    | expr ' '* MODULUS expr ' '*
+    | expr ' '* EXPONENTIATION expr ' '*
+    | expr ' '* FLOOR_DIVISION expr ' '*
+    | expr ' '* EQUAL_TO expr ' '*
+    | expr ' '* NOT_EQUAL_TO expr ' '*
+    | expr ' '* GREATER_THAN expr ' '*
+    | expr ' '* LESS_THAN expr ' '*
+    | expr ' '* GREATER_THAN_OR_EQUAL_TO expr ' '*
+    | expr ' '* LESS_THAN_OR_EQUAL_TO expr ' '*
+    | expr ' '* ADDITION_ASSIGNMENT expr ' '*
+    | expr ' '* SUBTRACTION_ASSIGNMENT expr ' '*
+    | expr ' '* MULTIPLICATION_ASSIGNMENT expr ' '*
+    | expr ' '* DIVISION_ASSIGNMENT expr ' '*
+    | expr ' '* MODULUS_ASSIGNMENT expr ' '*
+    | expr ' '* EXPONENTIATION_ASSIGNMENT expr ' '*
+    | expr ' '* FLOOR_DIVISION_ASSIGNMENT expr ' '*
+    | expr ' '* IMPORT expr ' '*
+    | ' '* FLOAT ' '*
+    | ' '* FLOAT_D ' '*
+    | expr ' '* ELSE expr ' '*
+    | expr ' '* TRUE expr ' '*
+    | expr ' '* FALSE expr ' '*
+    | expr ' '* FROM expr ' '*
+    | expr ' '* IN expr ' '*
+    | expr ' '* FOR expr ' '*
+    | WHILE expr ' '*
+    | expr ' '* PRINT expr ' '*
+    | expr ' '* DEF expr ' '*
+    | expr ' '* WITH expr ' '*
+    | expr ' '* TYPE expr ' '*
+    | expr ' '* LIST expr ' '*
+    | expr ' '* STR expr ' '*
+    | expr ' '* AND expr ' '*
+    | expr ' '* AND_E expr ' '*
+    | expr ' '* OR_O expr ' '*
+    | expr ' '* PONTO expr ' '*
+    | expr ' '* NOT expr ' '*
+    | expr ' '* OR expr ' '*
+    | expr ' '* ELIF expr ' '*
+    | func ' '*
+    | 'not' ' '* expr ' '*
+    | expr ' '* 'and' ' '* expr ' '*
+    | expr ' '* 'or' ' '* expr ' '*
+    ; 
+ 
+func : DEF ID LPAREN expr (COMMA expr)* RPAREN COLON  ;
+func_call : ID LPAREN expr (COMMA expr)* RPAREN ;
